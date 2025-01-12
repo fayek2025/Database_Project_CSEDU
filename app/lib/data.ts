@@ -6,8 +6,32 @@ import {
   InvoicesTable,
   LatestInvoiceRaw,
   Revenue,
+  League
 } from './definitions';
 import { formatCurrency } from './utils';
+
+export async function fetchLeagues() {
+  try {
+    const data = await sql<League>`
+      SELECT leagueId, leagueName, country, tier, established
+      FROM Leagues
+      ORDER BY established ASC`;
+
+    // Optional: Format or transform the data if necessary
+    const leagues = data.rows.map((league) => ({
+      ...league,
+      established: new Date(league.established).toDateString(), // Format the date
+    }));
+
+    return leagues;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch leagues.');
+  }
+}
+
+
+
 
 export async function fetchRevenue() {
   try {
