@@ -1,8 +1,39 @@
 import bcrypt from 'bcrypt';
 import { db } from '@vercel/postgres';
-import { invoices, customers, revenue, users } from '../lib/placeholder-data';
+import { invoices, customers, revenue, users , League } from '../lib/placeholder-data';
 
 const client = await db.connect();
+
+
+async function seedLeague() {
+  await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+
+  await client.sql`
+    CREATE TABLE IF NOT EXISTS Leagues (
+      leagueId SERIAL PRIMARY KEY,
+      leagueName VARCHAR(100) NOT NULL UNIQUE,
+      country VARCHAR(50),
+      tier INT,
+      established DATE,
+      createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+  `;
+
+  const insertedLeagues = await Promise.all(
+    League.map(
+      (league) => client.sql`
+        INSERT INTO Leagues (leagueId , leagueName, country, established, tier, createdAt)
+        VALUES (${league.id}, ${league.leagueName}, ${league.country}, ${league.established}, ${league.tier}, 
+        ${league.createdAt})
+        ON CONFLICT (leagueId) DO NOTHING;
+      `,
+    ),
+  );
+
+  return insertedLeagues;
+  
+
+}
 
 async function seedUsers() {
   await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
@@ -102,16 +133,14 @@ async function seedRevenue() {
 }
 
 export async function GET() {
-  return Response.json({
-    message:
-      'Uncomment this file and remove this line. You can delete this file when you are finished.',
-  });
+  
   try {
     await client.sql`BEGIN`;
-    await seedUsers();
-    await seedCustomers();
-    await seedInvoices();
-    await seedRevenue();
+    // await seedUsers();
+    // await seedCustomers();
+    // await seedInvoices();
+    // await seedRevenue();
+    await seedLeague();
     await client.sql`COMMIT`;
 
     return Response.json({ message: 'Database seeded successfully' });

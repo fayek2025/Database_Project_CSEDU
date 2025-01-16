@@ -4,10 +4,10 @@
 // However, these types are generated automatically if you're using an ORM such as Prisma.
 export type League = {
   id : number;
-  leagueName: string;
+  leaguename: string;
   country: string;
   tier: number;
-  established: Date;
+  established: string;
   createdAt: Date;
 
 };

@@ -1,5 +1,54 @@
 // This file contains placeholder data that you'll be replacing with real data in the Data Fetching chapter:
 // https://nextjs.org/learn/dashboard-app/fetching-data
+export const League = [
+  {
+    id: 1,
+    leagueName: 'Premier League',
+    country: 'England',
+    tier: 1,
+    established: '1992-02-20',
+    createdAt: new Date().toISOString()
+ // Automatically set to current date when the object is created
+  },
+  {
+    id: 2,
+    leagueName: 'La Liga',
+    country: 'Spain',
+    tier: 1,
+    established: '1929-02-10',
+    createdAt: new Date().toISOString()
+
+  },
+  {
+    id: 3,
+    leagueName: 'Bundesliga',
+    country: 'Germany',
+    tier: 1,
+    established: '1963-08-24',
+    createdAt: new Date().toISOString()
+
+  },
+  {
+    id: 4,
+    leagueName: 'Serie A',
+    country: 'Italy',
+    tier: 1,
+    established: '1898-05-08',
+    createdAt: new Date().toISOString()
+
+  },
+  {
+    id: 5,
+    leagueName: 'Ligue 1',
+    country: 'France',
+    tier: 1,
+    established: '1932-09-11',
+    createdAt: new Date().toISOString()
+
+  },
+];
+
+
 const users = [
   {
     id: '410544b2-4001-4271-9855-fec4b6a6442a',
